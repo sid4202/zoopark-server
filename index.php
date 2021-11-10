@@ -2,33 +2,33 @@
 function getAnimal($json, $url, $path)
 {
     if ($path == "/animals") {
-        print_r($json);
+        echo file_get_contents('animals.json');
     }
     if ($path == "/animal/" . $url[-1]) {
         foreach ($json as $value) {
             if ($value["id"] == $url[-1]) {
-                print_r($value);
+               echo json_encode($value);
             }
         }
     }
 }
 
-function updateId($json, $url, $path,$data)
+function updateId(&$json, $url, $path,$data)
 {
-    $data = '['.$data.']';
     $jsonData = json_decode($data, true);
     if ($path == "/animal/" . $url[-1]) {
-        $i = 0;
-        foreach ($json as $value){
-            $i+=1;
-            foreach ($value as $key){
-                if(key($key) == key($jsonData[0][$i])){
-                    $key = $jsonData[0][$i];
+        foreach($json as $key => $value){
+            if($value["id"] == $url[-1]){
+                foreach(array_keys($value) as $jsonKey) {
+                    foreach (array_keys($jsonData) as $dataKey) {
+                        if ($jsonKey == $dataKey) {
+                            $json[$key][$jsonKey] = $jsonData[$dataKey];
+                        }
+                    }
                 }
+            }
         }
     }
-    }
-
 }
 
 function addAnimal($json, $data)
@@ -53,9 +53,8 @@ function addAnimal($json, $data)
 }
 
 $method = $_SERVER['REQUEST_METHOD'];
-$filename = 'animals.json';
-$file = fopen($filename, 'r+');
-$json = fread($file, filesize($filename));
+$filename = 'animals.json';;
+$json = file_get_contents($filename);
 $list = json_decode($json, true);
 $url = $_SERVER['REQUEST_URI'];
 $path = parse_url($url, PHP_URL_PATH);
@@ -69,12 +68,10 @@ switch ($method) {
         break;
     case "POST":
         $list = addAnimal($list, $data);
-        fwrite($file, json_encode($json));
-        fclose($file);
+        file_put_contents($filename,json_encode($list));
         break;
     case "PUT":
         updateId($list, $url, $path, $data);
-        fwrite($file, json_encode($json));
-        fclose($file);
+        file_put_contents($filename,json_encode($list));
         break;
 }
