@@ -1,6 +1,6 @@
 <?php
 
-class SQL
+class SQL_true
 {
     public $basename;
     public $table;
