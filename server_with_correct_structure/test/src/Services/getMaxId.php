@@ -3,7 +3,7 @@ require_once (__DIR__."/../Services/Database.php");
 class RequestMaxId
 
 {
-    public function getMaxId()
+    public static function getMaxId()
     {
         $database = new Database();
         $connection = $database->getConnection();

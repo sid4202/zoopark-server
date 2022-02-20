@@ -51,8 +51,9 @@ class Animal extends Model
         }
 
         $mainQuery = "INSERT INTO animals$values VALUES$whatInsert;";
-        $this->databaseConnection->query($mainQuery);
-
+        var_dump(mysqli_stmt_fetch($this->databaseConnection->prepare($mainQuery)));
+        $this->databaseConnection->query($this->databaseConnection->prepare($mainQuery));
+        echo $this->toJson($this->find(RequestMaxId::getMaxId()));
     }
 
     public function update(string $name = null, string $type = null, int $age = null)
@@ -71,7 +72,7 @@ class Animal extends Model
             $query = "UPDATE animals SET age=$age WHERE id=$this->id;";
             $this->databaseConnection->query($query);
         }
-
+        echo $this->toJson($this->find($this->id));
     }
 
     public function find(int $id)
@@ -80,5 +81,9 @@ class Animal extends Model
         $result = $this->databaseConnection->query($query);
 
         return mysqli_fetch_object($result, "Animal");
+    }
+    public function toJson($object)
+    {
+        return json_encode($object);
     }
 }

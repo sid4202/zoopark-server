@@ -6,14 +6,15 @@ class AnimalController
 {
     public function getAnimal(string $url, string $path)
     {
+        echo substr($path,8);
         $model = new Animal;
 
         if ($path == "/animals") {
             echo json_encode($model->all());
         }
 
-        if ($path == "/animal/" . $url[-1]) {
-            echo json_encode($model->find(intval($url[-1])));
+        if ($path == "/animal/" . substr($path,8)) {
+            echo json_encode($model->find(intval(substr($path,8))));
         }
 
     }
