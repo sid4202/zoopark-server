@@ -34,7 +34,7 @@ class RequestHandler
 
             case "PUT":
                 $animal = new Animal;
-                $animal = $animal->find(intval($url[-1]));
+                $animal = $animal->find(intval(substr($path,8)));
                 $controller->updateId($data, $animal);
                 break;
         }

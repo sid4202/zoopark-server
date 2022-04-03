@@ -51,8 +51,7 @@ class Animal extends Model
         }
 
         $mainQuery = "INSERT INTO animals$values VALUES$whatInsert;";
-        var_dump(mysqli_stmt_fetch($this->databaseConnection->prepare($mainQuery)));
-        $this->databaseConnection->query($this->databaseConnection->prepare($mainQuery));
+        $this->databaseConnection->query($mainQuery);
         echo $this->toJson($this->find(RequestMaxId::getMaxId()));
     }
 

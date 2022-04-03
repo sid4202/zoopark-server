@@ -4,9 +4,8 @@ require_once (__DIR__."/../Services/getMaxId.php");
 require_once(__DIR__."/../Helpers/helpers.php");
 class AnimalController
 {
-    public function getAnimal(string $url, string $path)
+    public function getAnimal(string $path)
     {
-        echo substr($path,8);
         $model = new Animal;
 
         if ($path == "/animals") {
@@ -37,7 +36,7 @@ class AnimalController
     function updateId($data, Animal $object)
     {
         $jsonData = json_decode($data, true);
-        $jsonData = fillArray($jsonData);
+        fillArray($jsonData);
         $object->update($jsonData['name'], $jsonData['type'], $jsonData['age']);
     }
 }

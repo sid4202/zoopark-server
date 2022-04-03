@@ -1,10 +1,5 @@
 <?php
 
-function getMax(int $a, int $b): int
-{
-    return max($a, $b);
-}
-
 function fillArray(&$jsonData)
 {
     if (!isset($jsonData['name'])) {
