@@ -1,6 +1,6 @@
 <?php
 
-class Cacher
+class Cache
 {
 
     public function getConnection(Redis $redis)
@@ -15,7 +15,6 @@ class Cacher
         $this->getConnection($redis);
 
         $redis->setex($key, $time, $value);
-        echo $redis->get($key);
     }
 
     public function invalid(string $key = "all_data")
@@ -25,6 +24,13 @@ class Cacher
         $this->getConnection($redis);
 
         $redis->del($key);
+    }
+    public function get(string $key = "all_data"){
+        $redis = new Redis();
+
+        $this->getConnection($redis);
+
+        return $redis->get($key);
     }
 
 }
