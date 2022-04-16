@@ -9,7 +9,6 @@ class RequestHandler
         $url = $_SERVER['REQUEST_URI'];
         $path = parse_url($url, PHP_URL_PATH);
         $data = file_get_contents('php://input');
-
         $controller = new AnimalController();
 
         $this->determineHTTPMethod($controller, $url, $path, $data);
@@ -33,7 +32,8 @@ class RequestHandler
                 break;
 
             case "PUT":
-                $animal = new Animal;
+                $animal = new Animal();
+                var_dump(intval(substr($path,8)));
                 $animal = $animal->find(intval(substr($path,8)));
                 $controller->updateId($data, $animal);
                 break;

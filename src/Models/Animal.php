@@ -1,6 +1,6 @@
 <?php
 require_once(__DIR__ . "/../Models/Model.php");
-
+require_once (__DIR__ . "/../Services/Database.php");
 class Animal extends Model
 {
     public $name;
@@ -23,25 +23,27 @@ class Animal extends Model
 
     public function create($jsonData)
     {
-        $whatInsert = "(";
-        $values = "(";
+        var_dump($jsonData);
+        $id = $jsonData['id'];
+        $whatInsert = "($id,";
+        $values = "(id,";
         $inserts = [];
-        $fields = [];
         $paramStr = "";
         foreach ($jsonData as $value => $key) {
             if ($value != null) {
-                    $whatInsert .= "?" . ",";
-                $values .= "?" . ",";
+                if (is_numeric($key)){
+                continue;
+                }
+                $whatInsert .= "?" . ",";
+                $values .= $value . ",";
                 $inserts[] = $key;
-                $fields[] = $value;
-                $paramStr .= "ss";
+                $paramStr .= "s";
             }
 
         }
         $paramsForCreate = [];
 
         $paramsForCreate[] = $paramStr;
-        $paramsForCreate[] = $fields;
         $paramsForCreate[] = $inserts;
 
         if ($values[-1] == ",") {
@@ -55,9 +57,7 @@ class Animal extends Model
         } else {
             $whatInsert .= ")";
         }
-        var_dump($inserts);
-        var_dump($fields);
-        var_dump($paramStr);
+
         $mainQuery = "INSERT INTO animals$values VALUES$whatInsert;";
         $this->query($mainQuery, $paramsForCreate);
         echo $this->toJson($this->find(RequestMaxId::getMaxId()));
@@ -66,17 +66,23 @@ class Animal extends Model
     public function update(string $name = null, string $type = null, int $age = null)
     {
         if (isset($name)) {
-            $query = "UPDATE animals SET name=$name WHERE id=$this->id;";
+            $query = "UPDATE animals SET name=? WHERE id=$this->id;";
+            $params = ["s", [$name]];
+            $this->query($query, $params);
             $this->databaseConnection->query($query);
         }
 
         if (isset($type)) {
-            $query = "UPDATE animals SET type=$type WHERE id=$this->id;";
+            $query = "UPDATE animals SET type=? WHERE id=$this->id;";
+            $params = ["s", [$type]];
+            $this->query($query, $params);
             $this->databaseConnection->query($query);
         }
 
         if (isset($age)) {
-            $query = "UPDATE animals SET age=$age WHERE id=$this->id;";
+            $query = "UPDATE animals SET age=? WHERE id=$this->id;";
+            $params = ["s", [$age]];
+            $this->query($query, $params);
             $this->databaseConnection->query($query);
         }
         echo $this->toJson($this->find($this->id));

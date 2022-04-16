@@ -1,7 +1,7 @@
 <?php
 
 require_once (__DIR__ . "/../Services/Database.php");
-class Model
+class Model extends Database
 {
     /**
      * @var mysqli
@@ -14,11 +14,10 @@ class Model
     }
     public function query(string $query, array $params)
     {
-        var_dump($query);
         $exec_query = $this->databaseConnection->stmt_init();
         $exec_query->prepare($query);
-        $exec_query->bind_param($params[0], ...$params[1], ...$params[2]);
+        $exec_query->bind_param($params[0], ...$params[1]);
         $exec_query->execute();
-        $query->get_result();
+        $exec_query->get_result();
     }
 }
