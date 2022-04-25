@@ -33,6 +33,15 @@ class AnimalController
         $redis = new Cache;
         $redis->invalid();
     }
+    public function deleteAll($object)
+    {
+        $object->delete_everything();
+
+        $redis = new Cache;
+        $redis->invalid();
+
+    }
+
 
     function addAnimal($data)
     {

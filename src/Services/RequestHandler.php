@@ -23,6 +23,9 @@ class RequestHandler
 
             case  "DELETE":
                 $animal = new Animal;
+                if ($path == "/animals"){
+                    $controller->deleteAll($animal);
+                }
                 $animal = $animal->find(intval($url[-1]));
                 $controller->deleteId($animal);
                 break;
@@ -33,7 +36,7 @@ class RequestHandler
 
             case "PUT":
                 $animal = new Animal();
-                var_dump(intval(substr($path,8)));
+
                 $animal = $animal->find(intval(substr($path,8)));
                 $controller->updateId($data, $animal);
                 break;

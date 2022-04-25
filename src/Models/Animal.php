@@ -18,12 +18,18 @@ class Animal extends Model
     public function delete()
     {
         $query = "DELETE FROM animals WHERE id=$this->id;";
-        $this->databaseConnection->query($query);
+        if($this->databaseConnection->query($query))
+            echo "deleted";
+    }
+    public function delete_everything()
+    {
+        $query = "DELETE FROM animals;";
+        if($this->databaseConnection->query($query))
+            echo "deleted";
     }
 
     public function create($jsonData)
     {
-        var_dump($jsonData);
         $id = $jsonData['id'];
         $whatInsert = "($id,";
         $values = "(id,";
@@ -93,7 +99,7 @@ class Animal extends Model
         $query = "SELECT * FROM animals WHERE id=$id;";
         $result = $this->databaseConnection->query($query);
 
-        return mysqli_fetch_object($result, "Animal");
+        return mysqli_fetch_object($result, Animal::class);
     }
     public function toJson($object)
     {
