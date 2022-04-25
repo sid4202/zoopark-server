@@ -5,7 +5,7 @@ import json
 def empty_check():
     requests.delete('http://localhost:8000/animals')
 
-    text = requests.get('http://localhost:8000/animals')
+    text = requests.get('http://localhost:8000/animals').text
 
     if text == "[]":
         return True
