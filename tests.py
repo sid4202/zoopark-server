@@ -33,6 +33,8 @@ def get_animal_check():
 
     requests.post('http://localhost:8000/animal', '{"name":"Melman","type":"giraffe"}')
 
+    # TODO make GET request to check animal
+
     correct_text_result = json.loads('{"name":"Melman","type":"giraffe"}')
 
     text_result = json.loads(text)
@@ -71,6 +73,8 @@ def post_weird_name_animal():
 def correct_deletion_check():
     text = requests.delete('http://localhost:8000/animal/1').text
 
+    # TODO add GET query to check animal is really deleted
+
     if text == "deleted":
         return True
     else:
@@ -83,9 +87,9 @@ def correct_update_check():
 
     requests.post('http://localhost:8000/animal', '{"name":"Melman","type":"giraffe"}')
 
-    requests.put('http://localhost:8000/animal/1', '{"name":"Pablo","type":"giraffe"}')
+    response = requests.put('http://localhost:8000/animal/1', '{"name":"Pablo","type":"giraffe"}')
 
-    text = json.loads(requests.put('http://localhost:8000/animal/1', '{"name":"Pablo","type":"giraffe"}').text)
+    text = json.loads(response.text)
 
     if text["name"] == "Pablo":
         return True
@@ -111,6 +115,7 @@ def correct_get_3_animals_check():
 
 def wrong_animal_deletion_check():
     text = requests.delete('http://localhost:8000/animal/23445667')
+
     if not text:
         return True
     else:
@@ -118,11 +123,20 @@ def wrong_animal_deletion_check():
         return False
 
 
-arr = [empty_check, post_animal_check, wrong_animal_check, post_weird_name_animal, correct_deletion_check,wrong_animal_deletion_check, correct_get_3_animals_check,correct_update_check]
+arr = [
+    empty_check,
+    post_animal_check,
+    wrong_animal_check,
+    post_weird_name_animal,
+    correct_deletion_check,
+    wrong_animal_deletion_check,
+    correct_get_3_animals_check,
+    correct_update_check
+]
 
 for test in arr:
     result = test()
     if result:
         print("ok")
     else:
-        print("not ok")
+        print(f"not ok: {test}")
