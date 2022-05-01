@@ -1,5 +1,9 @@
 <?php
-require_once (__DIR__."/EnvParser.php");
+
+require_once(__DIR__ . "/EnvParser.php");
+
+const KEY = "all_data";
+
 class Cache
 {
 
@@ -8,7 +12,7 @@ class Cache
         $redis->connect(EnvParser::env("REDIS_HOSTNAME"));
     }
 
-    public function setEx(string $value, int $time = 1800, string $key = "all_data")
+    public function setEx(string $value, int $time = 1800,string $key = KEY)
     {
         $redis = new Redis();
 

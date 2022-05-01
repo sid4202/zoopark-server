@@ -1,4 +1,5 @@
 <?php
+
 require_once(__DIR__ . "/../Models/Animal.php");
 require_once(__DIR__ . "/../Controllers/AnimalController.php");
 
@@ -14,7 +15,7 @@ class RequestHandler
         $this->determineHTTPMethod($controller, $url, $path, $data);
     }
 
-    public function determineHTTPMethod(AnimalController $controller, string $url, string $path, $data)
+    public function determineHTTPMethod(AnimalController $controller, string $url, string $path, string $data)
     {
         switch ($_SERVER['REQUEST_METHOD']) {
             case "GET":

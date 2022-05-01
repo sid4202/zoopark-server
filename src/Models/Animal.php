@@ -1,4 +1,5 @@
 <?php
+
 require_once(__DIR__ . "/../Models/Model.php");
 require_once(__DIR__ . "/../Services/Database.php");
 

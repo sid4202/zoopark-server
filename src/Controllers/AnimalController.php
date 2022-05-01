@@ -1,4 +1,5 @@
 <?php
+
 require_once(__DIR__ . "/../Services/Redis.php");
 require_once(__DIR__ . "/../Models/Animal.php");
 require_once(__DIR__ . "/../Services/RequestMaxId.php");
@@ -26,7 +27,7 @@ class AnimalController
 
     }
 
-    public function deleteId($object)
+    public function deleteId(Animal $object)
     {
         $object->delete();
 
