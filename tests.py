@@ -32,7 +32,7 @@ def get_animal_check():
     requests.delete('http://localhost:8000/animals')
 
     requests.post('http://localhost:8000/animal', '{"name":"Melman","type":"giraffe"}')
-
+    text = requests.get('http://localhost:8000/animal/1').text
     # TODO make GET request to check animal
 
     correct_text_result = json.loads('{"name":"Melman","type":"giraffe"}')
@@ -74,8 +74,8 @@ def correct_deletion_check():
     text = requests.delete('http://localhost:8000/animal/1').text
 
     # TODO add GET query to check animal is really deleted
-
-    if text == "deleted":
+    post_text = requests.get('http://localhost:8000/animal/1').text
+    if text == "deleted" and post_text == "null":
         return True
     else:
         print(text)

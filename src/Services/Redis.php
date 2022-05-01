@@ -1,14 +1,14 @@
 <?php
-
+require_once (__DIR__."/EnvParser.php");
 class Cache
 {
 
     public function getConnection(Redis $redis)
     {
-        $redis->connect('127.0.0.1',6379);
+        $redis->connect(EnvParser::env("REDIS_HOSTNAME"));
     }
 
-    public function setEx(string $value, int $time=1800, string $key = "all_data")
+    public function setEx(string $value, int $time = 1800, string $key = "all_data")
     {
         $redis = new Redis();
 
@@ -25,7 +25,9 @@ class Cache
 
         $redis->del($key);
     }
-    public function get(string $key = "all_data"){
+
+    public function get(string $key = "all_data")
+    {
         $redis = new Redis();
 
         $this->getConnection($redis);

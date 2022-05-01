@@ -1,6 +1,7 @@
 <?php
 
-require_once (__DIR__ . "/../Services/Database.php");
+require_once(__DIR__ . "/../Services/Database.php");
+
 class Model extends Database
 {
     /**
@@ -12,6 +13,7 @@ class Model extends Database
     {
         $this->databaseConnection = Database::getConnection();
     }
+
     public function query(string $query, array $params)
     {
         $exec_query = $this->databaseConnection->stmt_init();

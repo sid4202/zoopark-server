@@ -1,6 +1,7 @@
 <?php
 require_once(__DIR__ . "/../Models/Model.php");
-require_once (__DIR__ . "/../Services/Database.php");
+require_once(__DIR__ . "/../Services/Database.php");
+
 class Animal extends Model
 {
     public $name;
@@ -18,13 +19,16 @@ class Animal extends Model
     public function delete()
     {
         $query = "DELETE FROM animals WHERE id=$this->id;";
-        if($this->databaseConnection->query($query))
+
+        if ($this->databaseConnection->query($query))
             echo "deleted";
     }
+
     public function delete_everything()
     {
         $query = "DELETE FROM animals;";
-        if($this->databaseConnection->query($query))
+
+        if ($this->databaseConnection->query($query))
             echo "deleted";
     }
 
@@ -35,10 +39,11 @@ class Animal extends Model
         $values = "(id,";
         $inserts = [];
         $paramStr = "";
+
         foreach ($jsonData as $value => $key) {
             if ($value != null) {
-                if (is_numeric($key)){
-                continue;
+                if (is_numeric($key)) {
+                    continue;
                 }
                 $whatInsert .= "?" . ",";
                 $values .= $value . ",";
@@ -91,6 +96,7 @@ class Animal extends Model
             $this->query($query, $params);
             $this->databaseConnection->query($query);
         }
+
         echo $this->toJson($this->find($this->id));
     }
 
@@ -101,6 +107,7 @@ class Animal extends Model
 
         return mysqli_fetch_object($result, Animal::class);
     }
+
     public function toJson($object)
     {
         return json_encode($object);
