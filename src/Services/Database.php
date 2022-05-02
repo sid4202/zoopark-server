@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__ . "/EnvParser.php");
+require_once(__DIR__ . "/../Helpers/helpers.php");
 
 class Database
 {
