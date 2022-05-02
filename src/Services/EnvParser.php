@@ -18,9 +18,8 @@ class EnvParser
         return $env;
     }
 
-
-    public static function env(string $key)
-    {
-        return self::parse()[$key];
-    }
 }
+    function env(string $key)
+    {
+        return EnvParser::parse()[$key];
+    }
